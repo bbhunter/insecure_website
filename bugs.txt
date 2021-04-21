@@ -1,0 +1,14 @@
+1. the xss vulnerability was discvered by passing malicious input through a GET request under the
+director attribute. This enabled loading of scripts by passing a URL like the following /?director=<span><script>alert(1)</script></span>
+This error was caused by use of the "|safe" django template tag which prevents espcaping of malicious tags. 
+This bug was patched by removing the safe template tag.
+
+2. a man in the middle attack was used to make a user gift a card to an unintended user. this was
+demonstrated by use of burpsite proxy where the username being passed to the user could be easily changed.
+This could be patched by enabling authentication of the user sending the requests and having a secure network between users and the server.
+
+3. A salted password for the Admin was obtained through poisoning the JSON data contained in a downloaded card.
+since the developers used raw query statements instead of the inbuilt Django ORM which enables safe data retrieval from the database.
+
+4. Due to the fact that the program allowed uploading of any file type. This led to an unrestricted file upload vulnerability
+this means that malicious data could be uploaded to the server. This vulnerability was patched by ensuring that the uploaed file type is confirmed
