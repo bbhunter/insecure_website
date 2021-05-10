@@ -6,4 +6,9 @@ install:
   - pip install -r requirements.txt
 # command to run tests
 script:
+  #start the server
+  - python manage.py runserver
+
+  #regression test with curl to cover xss attack
   - python manage.py test
+  - "curl 'http://localhost:8000/buy/2?director=%3Cspan%3E%3Cscript%3Ealert(1)%3C/script%3E%3C/span%3E' \ -H 'Connection: keep-alive' \ -H 'Cache-Control: max-age=0' \ -H 'sec-ch-ua: \"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\"' \ -H 'sec-ch-ua-mobile: ?0' \ -H 'Upgrade-Insecure-Requests: 1' \ -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36' \ -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9' \ -H 'Sec-Fetch-Site: none' \ -H 'Sec-Fetch-Mode: navigate' \ -H 'Sec-Fetch-User: ?1' \ -H 'Sec-Fetch-Dest: document' \ -H 'Accept-Language: en-US,en;q=0.9' \ -H 'Cookie: sessionid=eml1pst84n4xtk3ec96jcgvmuxkevh0g' \ --compressed"
